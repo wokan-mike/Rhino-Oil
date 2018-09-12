@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>RhinoOil</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="vendor/fonts/ValeraRound.css" rel="stylesheet">
+    <link href="vendor/fonts/Nunito.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/grayscale.min.css" rel="stylesheet">
+
+    <!-- CALL JS FOR GRAPH-->
+    <script src="graph/amcharts.js"></script>
+  <script src="graph/serial.js"></script>
+  <script src="graph/export.min.js"></script>
+  <link rel="stylesheet" href="graph/export.css" type="text/css" media="all" />
+  <script src="graph/black.js"></script>
+
+  <script>
+  var setMagCli;
+  var setPremCli;
+  var setDiesCli;
+
+    function changeText(){
+      var magna = [{"LI": 0, "LS": 500},{"LI": 501, "LS":1250 },{"LI": 1251, "LS": 4167}, {"LI": 4168, "LS":8333 }, {"LI": 8334, "LS": 16667}, {"LI": 16668, "LS":25000 }, {"LI": 25001, "LS": 41667}, {"LI": 41668, "LS":75000 }, {"LI": 75001, "LS": 104167},{"LI": 104168, "LS":1000000}];
+      var beneMag = ["105", "140", "175", "210", "280", "420", "525", "630", "700", "0"];
+      var beneMag1 = ["0", "35", "53","70", "105", "175", "228", "280", "315", "0"];
+      var beneMag2 = ["53", "79", "105", "131", "184", "289", "368","446", "499", "0"];
+      var loco;
+      var liminf;
+      var limsup;
+      var chartData = [ {
+        "category": "Grupo Magna perteneciente",
+        "value1": 5,
+        "value2": 5,
+      } ];
+      loco = document.getElementById('usr').value;
+      setMagCli = document.getElementById('usr').value;
+      for (var i = 0; i <= 9; i++) {
+        liminf = magna[i].LI;
+        limsup = magna[i].LS;
+        if (loco >= liminf && loco <= limsup) {
+          console.log(i+1);
+          var percent = ((loco-liminf)/(limsup-liminf))*100;
+          var inter = i+1;
+          var dif = 9- inter;
+          chartData[0].value2 = dif;
+          chartData[0].value1 = inter;
+          document.getElementById('percent').innerHTML = percent.toFixed(2);
+          document.getElementById('res').innerHTML = beneMag[i];
+          document.getElementById('resm1').innerHTML = beneMag1[i];
+          document.getElementById('resm2').innerHTML = beneMag2[i];
+          document.getElementById('lab').innerHTML = inter;
+          var ms1= setMagCli * 1000;
+          document.getElementById('MS1').innerHTML= new Intl.NumberFormat('es-MX').format(ms1);
+          var ms2 = beneMag[i] / 1000;
+          document.getElementById('MS2').innerHTML = new Intl.NumberFormat('es-MX').format(ms2);
+          document.getElementById('MS3').innerHTML = new Intl.NumberFormat('es-MX').format(ms1 *ms2);
+        }
+
+      }
+
+      numbr = parseInt(loco);
+      var chart = AmCharts.makeChart( "chartdiv", {
+        "theme": "light",
+        "type": "serial",
+        "depth3D": 100,
+        "angle": 30,
+        "autoMargins": false,
+        "marginBottom": 100,
+        "marginLeft": 350,
+        "marginRight": 300,
+        "dataProvider": chartData,
+        "valueAxes": [ {
+          "stackType": "regular",
+          "step": "1",
+          "gridAlpha": 0
+        } ],
+        "graphs": [ {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#FFFFFF",
+          "fillColors": "#01B576 #FFFFFF",
+          "fillAlphas": 0.8,
+          "valueField": "value1"
+        }, {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#cdcdcd",
+          "fillColors": "#FFFFFF",
+          "fillAlphas": 0.5,
+          "valueField": "value2"
+        } ],
+
+        "categoryField": "category",
+        "categoryAxis": {
+          "axisAlpha": 0,
+          "labelOffset": 40,
+          "gridAlpha": 0
+        },
+        "export": {
+          "enabled": false
+        }
+      } );
+    }
+// funcion diesel
+    function changeDiesel(){
+      var diesel = [{"LI": 0, "LS": 333},{"LI": 334, "LS":1000 },{"LI": 1001, "LS": 1667}, {"LI": 1668, "LS":3333 }, {"LI": 3334, "LS": 6667}, {"LI": 6668, "LS":9167 },{"LI": 9168, "LS": 12500}, {"LI": 12501, "LS":16667 },{"LI": 16668, "LS": 25000},{"LI": 250001, "LS":75000 }];
+      var beneDies = ["105","140","175","210","280","420","525","630","700","0"];
+      var beneDies1 = ["0", "35", "53", "70", "105", "175", "228", "280", "315", "0"];
+      var beneDies2 = ["53", "76", "105", "131", "184", "289", "368", "446", "499", "0"];
+      var loco3;
+      var liminf3;
+      var limsup3;
+      var chartData3 = [ {
+        "category": "Grupo Diesel perteneciente",
+        "value1": 5,
+        "value2": 5,
+      } ];
+      loco3 = document.getElementById('usr3').value;
+      setDiesCli = document.getElementById('usr3').value;
+      for (var i = 0; i <= 9; i++) {
+        liminf3 = diesel[i].LI;
+        limsup3 = diesel[i].LS;
+        if (loco3 >= liminf3 && loco3 <= limsup3) {
+          console.log(i+1);
+          var percent3 = ((loco3-liminf3)/(limsup3-liminf3))*100;
+          var inter = i+1;
+          var dif = 9- inter;
+          chartData3[0].value2 = dif;
+          chartData3[0].value1 = inter;
+          document.getElementById('percent3').innerHTML = percent3.toFixed(2);
+          document.getElementById('res3').innerHTML = beneDies[i];
+          document.getElementById('resd1').innerHTML = beneDies1[i];
+          document.getElementById('resd2').innerHTML = beneDies2[i];
+          document.getElementById('lab3').innerHTML = inter;
+
+          var ms13= setDiesCli * 1000;
+          document.getElementById('MS13').innerHTML= new Intl.NumberFormat('es-MX').format(ms13);
+          var ms23 = beneDies[i] / 1000;
+          document.getElementById('MS23').innerHTML = new Intl.NumberFormat('es-MX').format(ms23);
+          document.getElementById('MS33').innerHTML = new Intl.NumberFormat('es-MX').format(ms13 *ms23);
+        }
+
+      }
+
+      var chart = AmCharts.makeChart( "chartdiv3", {
+        "theme": "light",
+        "type": "serial",
+        "depth3D": 100,
+        "angle": 30,
+        "autoMargins": false,
+        "marginBottom": 100,
+        "marginLeft": 350,
+        "marginRight": 300,
+        "dataProvider": chartData3,
+        "valueAxes": [ {
+          "stackType": "regular",
+          "step": "1",
+          "gridAlpha": 0
+        } ],
+        "graphs": [ {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#FFFFFF",
+          "fillColors": "#000000 #FFFFFF",
+          "fillAlphas": 0.8,
+          "valueField": "value1"
+        }, {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#cdcdcd",
+          "fillColors": "#FFFFFF",
+          "fillAlphas": 0.5,
+          "valueField": "value2"
+        } ],
+
+        "categoryField": "category",
+        "categoryAxis": {
+          "axisAlpha": 0,
+          "labelOffset": 40,
+          "gridAlpha": 0
+        },
+        "export": {
+          "enabled": false
+        }
+      } );
+
+
+    }
+// Funcion AfterRhinoDiesel
+    function afterRhinoDies() {
+      var diesel = [{"LI": 0, "LS": 333},{"LI": 334, "LS":1000 },{"LI": 1001, "LS": 1667}, {"LI": 1668, "LS":3333 }, {"LI": 3334, "LS": 6667}, {"LI": 6668, "LS":9167 },{"LI": 9168, "LS": 12500}, {"LI": 12501, "LS":16667 },{"LI": 16668, "LS": 25000},{"LI": 250001, "LS":75000 }];
+      var beneDies = ["89.25", "119", "148.75", "178.5", "238", "357", "446.25", "535.5", "595", "0"];
+      var beneDies1 = ["0","29.75","45.05","59.5","89.25","148.75","193.8","238","267.75","0"];
+      var beneDies2 = ["45.05","67.15","89.25","111.35","156.4","245.65","312.8","379.1","424.15","0"];
+      var clusters = {"7":0, "13":1128, "14": 1880, "15": 70, "18": 601};
+      var loco;
+      var picker;
+      var liminf;
+      var dif = 0;
+      var limsup;
+      var unido;
+      var liminf2;
+      var limsup2;
+      var chartData3 = [ {
+        "category": "Grupo Diesel perteneciente",
+        "value1": 5,
+        "value2": 3,
+        "value3": 2,
+      } ];
+      picker = document.getElementById('pick3').value;
+      loco = clusters[picker];
+      for (var i = 0; i <= 9; i++) {
+        liminf = diesel[i].LI;
+        limsup = diesel[i].LS;
+        if (loco >= liminf && loco <= limsup) {
+
+          var inter = i+1;
+          var percento = ((loco-liminf)/(limsup-liminf));
+          var just = inter + percento;
+          //alert(just);
+          chartData3[0].value1 = just.toFixed(2);
+
+          for (var j = 0; j <= 9; j++) {
+            liminf2 = diesel[j].LI;
+            limsup2 = diesel[j].LS;
+            setDiesCli = parseInt(setDiesCli);
+            loco = parseInt(loco);
+            unido = setDiesCli + loco;
+
+            if (unido >= liminf2 && unido <= limsup2) {
+              var insum = j+1;
+              var percento2 = ((unido-liminf2)/(limsup2-liminf2))
+              var percento200 = ((unido-liminf2)/(limsup2-liminf2))*100
+              var total2 = insum + percento2;
+              //alert(total2);
+              var aporte = total2 - just;
+              chartData3[0].value2 = aporte.toFixed(2);
+              document.getElementById('res3').innerHTML = beneDies[j];
+              document.getElementById('resd1').innerHTML = beneDies1[j];
+              document.getElementById('resd2').innerHTML = beneDies2[j];
+
+              var ms43 = beneDies[j] / 1000;
+              var setm3 = setDiesCli * 1000;
+              document.getElementById('MS53').innerHTML = new Intl.NumberFormat('es-MX').format(setm3);
+              document.getElementById('MS43').innerHTML = new Intl.NumberFormat('es-MX').format(ms43);
+              var multipl3 = ms43 * setm3;
+              document.getElementById('MS63').innerHTML = new Intl.NumberFormat('es-MX').format(multipl3);
+            }
+
+          }
+
+          chartData3[0].value3 = 9 - aporte - just;
+
+          document.getElementById('percent3').innerHTML = percento200.toFixed(2);
+
+          document.getElementById('lab3').innerHTML = insum;
+        }
+      }
+
+      numbr = parseInt(loco);
+      var chart = AmCharts.makeChart( "chartdiv3", {
+        "theme": "light",
+        "type": "serial",
+        "depth3D": 100,
+        "angle": 30,
+        "autoMargins": false,
+        "marginBottom": 100,
+        "marginLeft": 350,
+        "marginRight": 300,
+        "dataProvider": chartData3,
+        "valueAxes": [ {
+          "stackType": "regular",
+          "step": "1",
+          "gridAlpha": 0
+        } ],
+        "graphs": [ {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#FFFFFF",
+          "fillColors":"#000000 #FFFFFF",
+          "fillAlphas": 0.8,
+          "valueField": "value1"
+        }, {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#000000",
+          "fillColors": "##b60000 #FFFFFF",
+          "fillAlphas": 0.5,
+          "valueField": "value2"
+        }, {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#cdcdcd",
+          "fillColors": "#FFFFFF",
+          "fillAlphas": 0.5,
+          "valueField": "value3"
+        } ],
+
+        "categoryField": "category",
+        "categoryAxis": {
+          "axisAlpha": 0,
+          "labelOffset": 40,
+          "gridAlpha": 0
+        },
+        "export": {
+          "enabled": false
+        }
+      } );
+    }
+
+// INICIA PREMIUM ¡¡¡¡¡¡
+
+    function changePremium(){
+      var premium = [{"LI": 0, "LS": 167},{"LI": 168, "LS":333 },{"LI": 334, "LS": 584}, {"LI": 585, "LS":1333 }, {"LI": 1334, "LS": 2500}, {"LI": 2501, "LS":8333 },{"LI": 8334, "LS": 12500}, {"LI": 12501, "LS":20833 },{"LI": 20834, "LS": 33333},{"LI": 33334, "LS":75000 }];
+      var benePrem = ["90","120","150","180","240","360","450","540","600","0"];
+      var benePrem1 = ["0","30","45","60","90","150","195","240","270","0"];
+      var benePrem2 = ["45","68","90","113","158","248","315","383","600","0"];
+      var loco2;
+      var liminf2;
+      var limsup2;
+      var chartData2 = [ {
+        "category": "Grupo Premium perteneciente",
+        "value1": 5,
+        "value2": 5,
+      } ];
+      loco2 = document.getElementById('usr2').value;
+      setPremCli = document.getElementById('usr2').value;
+      for (var i = 0; i <= 9; i++) {
+        liminf2 = premium[i].LI;
+        limsup2 = premium[i].LS;
+        if (loco2 >= liminf2 && loco2 <= limsup2) {
+          console.log(i+1);
+          var percent2 = ((loco2-liminf2)/(limsup2-liminf2))*100;
+          var inter = i+1;
+          var dif = 9- inter;
+          chartData2[0].value2 = dif;
+          chartData2[0].value1 = inter;
+          document.getElementById('percent2').innerHTML = percent2.toFixed(2);
+          document.getElementById('res2').innerHTML = benePrem[i];
+          document.getElementById('lab2').innerHTML = inter;
+          document.getElementById('resp1').innerHTML = benePrem1[i];
+          document.getElementById('resp2').innerHTML = benePrem2[i];
+
+          var ms12= setPremCli * 1000;
+          document.getElementById('MS12').innerHTML= new Intl.NumberFormat('es-MX').format(ms12);
+          var ms22 = benePrem[i] / 1000;
+          document.getElementById('MS22').innerHTML = new Intl.NumberFormat('es-MX').format(ms22);
+          document.getElementById('MS32').innerHTML = new Intl.NumberFormat('es-MX').format(ms12 *ms22);
+        }
+
+      }
+
+      var chart = AmCharts.makeChart( "chartdiv2", {
+        "theme": "light",
+        "type": "serial",
+        "depth3D": 100,
+        "angle": 30,
+        "autoMargins": false,
+        "marginBottom": 100,
+        "marginLeft": 350,
+        "marginRight": 300,
+        "dataProvider": chartData2,
+        "valueAxes": [ {
+          "stackType": "regular",
+          "step": "1",
+          "gridAlpha": 0
+        } ],
+        "graphs": [ {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#FFFFFF",
+          "fillColors": "#ee1c25ff #FFFFFF",
+          "fillAlphas": 0.8,
+          "valueField": "value1"
+        }, {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#cdcdcd",
+          "fillColors": "#FFFFFF",
+          "fillAlphas": 0.5,
+          "valueField": "value2"
+        } ],
+
+        "categoryField": "category",
+        "categoryAxis": {
+          "axisAlpha": 0,
+          "labelOffset": 40,
+          "gridAlpha": 0
+        },
+        "export": {
+          "enabled": false
+        }
+      } );
+
+
+    }
+// Inicia AfterRhinoPremium
+    function afterRhinoPrem() {
+      var premium = [{"LI": 0, "LS": 167},{"LI": 168, "LS":333 },{"LI": 334, "LS": 584}, {"LI": 585, "LS":1333 }, {"LI": 1334, "LS": 2500}, {"LI": 2501, "LS":8333 }, {"LI": 8334, "LS": 12500}, {"LI": 12501, "LS":20833 }, {"LI": 20834, "LS": 33333},{"LI": 33334, "LS":1000000}];
+      var beneMag = ["102", "136", "170", "204", "272", "408", "510", "612", "680", "0"];
+      var benePrem1 = ["0","25.5","38.25","51","76.5","127.5","165.75","204","229.5","0"];
+      var benePrem2 = ["38.25","57.8","76.5","96.05","134.3","210.8","267.75","325.55","363.8","0"];
+      var clusters = {"7":0, "13":590, "14": 2620, "15": 150, "18": 418};
+      var loco;
+      var picker;
+      var liminf;
+      var dif = 0;
+      var limsup;
+      var unido;
+      var liminf2;
+      var limsup2;
+      var chartData2 = [ {
+        "category": "Grupo Premium perteneciente",
+        "value1": 5,
+        "value2": 3,
+        "value3": 2,
+      } ];
+      picker = document.getElementById('pick2').value;
+      loco = clusters[picker];
+      for (var i = 0; i <= 9; i++) {
+        liminf = premium[i].LI;
+        limsup = premium[i].LS;
+        if (loco >= liminf && loco <= limsup) {
+
+          var inter = i+1;
+          var percento = ((loco-liminf)/(limsup-liminf));
+          var just = inter + percento;
+          //alert(just);
+          chartData2[0].value1 = just.toFixed(2);
+
+          for (var j = 0; j <= 9; j++) {
+            liminf2 = premium[j].LI;
+            limsup2 = premium[j].LS;
+            setPremCli = parseInt(setPremCli);
+            loco = parseInt(loco);
+            unido = setPremCli + loco;
+
+            if (unido >= liminf2 && unido <= limsup2) {
+              var insum = j+1;
+              var percento2 = ((unido-liminf2)/(limsup2-liminf2))
+              var percento200 = ((unido-liminf2)/(limsup2-liminf2))*100
+              var total2 = insum + percento2;
+              //alert(total2);
+              var aporte = total2 - just;
+              chartData2[0].value2 = aporte.toFixed(2);
+              document.getElementById('res2').innerHTML = beneMag[j];
+              document.getElementById('resp1').innerHTML = benePrem1[j];
+              document.getElementById('resp2').innerHTML = benePrem2[j];
+
+              var ms42 = beneMag[j] / 1000;
+              var setm2 = setPremCli * 1000;
+              document.getElementById('MS52').innerHTML = new Intl.NumberFormat('es-MX').format(setm2);
+              document.getElementById('MS42').innerHTML = new Intl.NumberFormat('es-MX').format(ms42);
+              var multipl2 = ms42 * setm2;
+              document.getElementById('MS62').innerHTML = new Intl.NumberFormat('es-MX').format(multipl2);
+            }
+
+          }
+
+          chartData2[0].value3 = 9 - aporte - just;
+
+          document.getElementById('percent2').innerHTML = percento200.toFixed(2);
+
+          document.getElementById('lab2').innerHTML = insum;
+        }
+      }
+
+      numbr = parseInt(loco);
+      var chart = AmCharts.makeChart( "chartdiv2", {
+        "theme": "light",
+        "type": "serial",
+        "depth3D": 100,
+        "angle": 30,
+        "autoMargins": false,
+        "marginBottom": 100,
+        "marginLeft": 350,
+        "marginRight": 300,
+        "dataProvider": chartData2,
+        "valueAxes": [ {
+          "stackType": "regular",
+          "step": "1",
+          "gridAlpha": 0
+        } ],
+        "graphs": [ {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#FFFFFF",
+          "fillColors":"#ee1c25ff #FFFFFF",
+          "fillAlphas": 0.8,
+          "valueField": "value1"
+        }, {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#000000",
+          "fillColors": "#000000 #FFFFFF",
+          "fillAlphas": 0.5,
+          "valueField": "value2"
+        }, {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#cdcdcd",
+          "fillColors": "#FFFFFF",
+          "fillAlphas": 0.5,
+          "valueField": "value3"
+        } ],
+
+        "categoryField": "category",
+        "categoryAxis": {
+          "axisAlpha": 0,
+          "labelOffset": 40,
+          "gridAlpha": 0
+        },
+        "export": {
+          "enabled": false
+        }
+      } );
+    }
+
+    //funcion de rhino
+
+    function afterRhinoMag() {
+      var magna = [{"LI": 0, "LS": 500},{"LI": 501, "LS":1250 },{"LI": 1251, "LS": 4167}, {"LI": 4168, "LS":8333 }, {"LI": 8334, "LS": 16667}, {"LI": 16668, "LS":25000 }, {"LI": 25001, "LS": 41667}, {"LI": 41668, "LS":75000 }, {"LI": 75001, "LS": 104167},{"LI": 104168, "LS":1000000}];
+      var beneMag = ["86.7", "115.6", "144.5", "173.4", "231.2", "346.8", "433.5", "520.2", "578", "0"];
+      var beneMag1 = ["0", "29.75", "45.05","59.5", "89.25", "148.75", "193.8", "238", "267.75", "0"];
+      var beneMag2 = ["45.05", "67.15", "89.25", "111.35", "156.4", "245.65", "312.8","379.1", "424.15", "0"];
+      var clusters = {"7":0, "13":2901, "14": 7810, "15": 230, "18": 1021};
+      var loco;
+      var picker;
+      var liminf;
+      var dif = 0;
+      var limsup;
+      var unido;
+      var liminf2;
+      var limsup2;
+      var chartData = [ {
+        "category": "Grupo Magna perteneciente",
+        "value1": 5,
+        "value2": 3,
+        "value3": 2,
+      } ];
+      picker = document.getElementById('pick').value;
+      loco = clusters[picker];
+      for (var i = 0; i <= 9; i++) {
+        liminf = magna[i].LI;
+        limsup = magna[i].LS;
+        if (loco >= liminf && loco <= limsup) {
+
+          var inter = i+1;
+          var percento = ((loco-liminf)/(limsup-liminf));
+          var just = inter + percento;
+          //alert(just);
+          chartData[0].value1 = just.toFixed(2);
+
+          for (var j = 0; j <= 9; j++) {
+            liminf2 = magna[j].LI;
+            limsup2 = magna[j].LS;
+            setMagCli = parseInt(setMagCli);
+            loco = parseInt(loco);
+            unido = setMagCli + loco;
+
+            if (unido >= liminf2 && unido <= limsup2) {
+              var insum = j+1;
+              var percento2 = ((unido-liminf2)/(limsup2-liminf2))
+              var percento100 = ((unido-liminf2)/(limsup2-liminf2))*100
+              var total2 = insum + percento2;
+              //alert(total2);
+              var aporte = total2 - just;
+              chartData[0].value2 = aporte.toFixed(2);
+              document.getElementById('res').innerHTML = beneMag[j];
+              document.getElementById('resm1').innerHTML = beneMag1[j];
+              document.getElementById('resm2').innerHTML = beneMag2[j];
+              var ms4 = beneMag[j] / 1000;
+              var setm = setMagCli * 1000;
+              document.getElementById('MS5').innerHTML = new Intl.NumberFormat('es-MX').format(setm);
+              document.getElementById('MS4').innerHTML = new Intl.NumberFormat('es-MX').format(ms4);
+              var multipl = ms4 * setm;
+              document.getElementById('MS6').innerHTML = new Intl.NumberFormat('es-MX').format(multipl);
+            }
+
+          }
+
+          chartData[0].value3 = 9 - aporte - just;
+
+          document.getElementById('percent').innerHTML = percento100.toFixed(2);
+
+          document.getElementById('lab').innerHTML = insum;
+        }
+      }
+
+      numbr = parseInt(loco);
+      var chart = AmCharts.makeChart( "chartdiv", {
+        "theme": "light",
+        "type": "serial",
+        "depth3D": 100,
+        "angle": 30,
+        "autoMargins": false,
+        "marginBottom": 100,
+        "marginLeft": 350,
+        "marginRight": 300,
+        "dataProvider": chartData,
+        "valueAxes": [ {
+          "stackType": "regular",
+          "step": "1",
+          "gridAlpha": 0
+        } ],
+        "graphs": [ {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#FFFFFF",
+          "fillColors": "#01B576 #FFFFFF",
+          "fillAlphas": 0.8,
+          "valueField": "value1"
+        }, {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#FFFF00",
+          "fillColors": "#FFFF00",
+          "fillAlphas": 0.5,
+          "valueField": "value2"
+        }, {
+          "type": "column",
+          "topRadius": 1,
+          "columnWidth": 1,
+          "showOnAxis": true,
+          "lineThickness": 2,
+          "lineAlpha": 0.5,
+          "lineColor": "#cdcdcd",
+          "fillColors": "#FFFFFF",
+          "fillAlphas": 0.5,
+          "valueField": "value3"
+        } ],
+
+        "categoryField": "category",
+        "categoryAxis": {
+          "axisAlpha": 0,
+          "labelOffset": 40,
+          "gridAlpha": 0
+        },
+        "export": {
+          "enabled": false
+        }
+      } );
+    }
+
+
+  </script>
+
+  <style>
+    #chartdiv {
+    	width		: 100%;
+    	height		: 400px;
+    	font-size	: 11px;
+    }
+    #chartdiv2 {
+    	width		: 100%;
+    	height		: 400px;
+    	font-size	: 11px;
+    }
+    #chartdiv3 {
+    	width		: 100%;
+    	height		: 400px;
+    	font-size	: 11px;
+    }
+</style>
+
+
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top"></a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#projects">Setup</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#signup">Grupos</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="masthead">
+      <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+          <h1 class="mx-auto my-0 text-uppercase">Rhino Oil</h1>
+          <h2 class="text-white-50 mx-auto mt-2 mb-5">En los negocios como en la vida, tú no obtienes lo que mereces; obtienes lo que negocias.</h2>
+          <a href="#about" class="btn btn-primary js-scroll-trigger">Get Started</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="about-section"style="padding-top: ‒10; padding-top: 30px;  background-size:cover;">
+      <div class="topright">
+        <img style=" width: 190px; height: 120px;" src="img/rhinorojoSF.png" alt="">
+        <h2 class="text-gray-300 col-sm-6 offset-sm-6" style="color: #EE1C25; font-weight: bold;">¿QUIÉNES SOMOS?</h2>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <br>
+            <p class="" style="font-size: 18px; color: white">Nuestro propósito es consolidar el volumen de nuestra red de estaciones de servicio, así como de terceros, y lograr el
+              <a href="#" style="font-weight: bold; font-size: 25px" >mejor precio de adquisición de los combustibles: Magna, Premium y Díesel. </a></p>
+          </div>
+          <div class="">
+            <p> </p>
+            <br>
+            <br>
+            <br>
+            <div class="col-lg-8 mx-auto">
+              <br>
+              <p class="" style="font-size: 30px; font-weight: bold; color: white;">MÁS DE <a href="#"style="font-weight: bold; font-size: 40px">50 AÑOS</a> EN EL SECTOR ENERGÉTICO.</p>
+            </div>
+            <br>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+    </section>
+
+    <!--extencion -->
+
+    <section id="about" class="about-section2"style="padding-top: ‒10; padding-top: 30px; background-size:cover; ">
+      <div class="topright">
+        <br>
+        <p style="font-size: 30px; font-weight: bold; color: #EE1C25; padding-left: 80px; margin-bottom: 40px;">RHINO OIL VS OTRAS EMPRESAS</p>
+      </div>
+      <div class="container" style="margin-left: 100px;">
+        <div class="row">
+          <div class="col-sm-6">
+            <br>
+            <p class="text-white-50" style="font-size: 18px">En el mercado existen diversas alternativas, las cuales basan su oferta en la expectativa de incrementar el volumen de venta por el simple hecho de ser una “marca transnacional”.</p>
+          </div>
+          <div class="col-sm-6">
+            <br>
+            <p class="" style="font-size: 35px; color: white;font-weight: bold; left: 200px; margin-left: 95px;">MILESTONES. <br> lo que nos hace únicos: </p>
+          </div>
+          <div class="col-sm-8 offset-sm-5">
+            <p class="" style="font-size: 28px; color: white;font-weight: bold; margin-left: 25px"> ° Solo comercializamos: Magna, Premium y Diésel. <br> <br> ° Libertad de operación de los integrantes. <br> <br> ° Libertad de operación de los integrantes. <br> <br> °  Somos totalmente transparentes.<br> <br> °  Nos quedamos con el proveedor que cuenta con infraestructura propia, tanto de logística como de almacenamiento, lo cual garantiza el abasto y suministro a las estaciones.</p>
+            <br>
+            <br>
+            <br>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+    </section>
+
+    <!--extencion -->
+
+    <section id="about" class="about-section3"style="padding-top: ‒10; padding-top: 30px; background-size:cover;">
+      <div class="topright">
+        <br>
+      </div>
+      <div class="container" style="margin-left: 100px;">
+        <div class="row">
+          <div class="col-sm-8">
+            <br>
+            <p class="" style="font-size: 35px; color:#EE1C25;font-weight: bold; left: 200px; margin-left: 135px;">BENEFICIOS <br> Con nosotros obtendrás: </p>
+          </div>
+          <div class="col-sm-8">
+            <p class="" style="font-size: 28px; color: white;font-weight: bold; margin-left: 25px"> ° 85% del beneficio otorgado por PEMEX. <br> <br> ° Si Rhino Oil aumenta el nivel, nuestros clientes crecen con nosotros. <br> <br> ° Libertad de operación de los integrantes. <br> <br> ° El volumen de nuestros clientes suma y no esta condicionado para ingresar.<br> <br> °  Crédito de acuerdo a las posibilidades del cliente y hasta 20 días.</p>
+            <br>
+            <br>
+            <br>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section  class="projects-section" style="padding-top: 10px; background:url(img/aboutRhino4.jpg);  background-size:cover;">
+      <div class="container" style="margin-left: 0px;">
+        <p id="projects" style="font-size: 30px; font-weight: bold; color: #EE1C25; padding-left: 80px;margin-bottom: 20px;padding-top: 25px;">Establezcamos parámetros</p>
+        <!-- Featured Project Row -->
+        <div class="mb-sm-6">
+          <div class="col-xl-10 col-lg-6">
+            <div id="chartdiv"></div>
+          </div>
+          <div>
+            <div class="featured-text text-center text-lg-left">
+              <h4>Comenzemos...</h4>
+                  <div class="col-sm-6">
+                    <label for="usr">M^3 Mensuales :</label>
+                    <input type="text" class="form-control col-sm-4" id="usr">
+                  </div>
+                  <div class="col-sm-6">
+                    <label>Corresponde al nivel: </label>
+                    <label id = "lab" style="font-size: 20px; font-weight: bold; color: green;"></label>
+                    <label> Estando a un : </label>
+                    <label id = "percent" style="font-size: 20px; font-weight: bold; color: green;"></label>
+                    <label> % Del nivel</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <label> Lo que implica un beneficio de: </label>
+                  </div>
+                  <div class="col-sm-7">
+                    <label> a 1 año: </label>
+                    <label id="resm1" style="font-size: 20px; font-weight: bold;"></label>
+                    <label style="font-size: 15px;">  $/M^3; </label>
+                    <label> a 2 años: </label>
+                    <label id="resm2" style="font-size: 25px; font-weight: bold;"></label>
+                    <label style="font-size: 15px;">  $/M^3; </label>
+                    <label> a 3 años: </label>
+                    <label id = "res" style="font-size: 30px; font-weight: bold; color: #EE1C25;"></label>
+                    <label style="font-size: 15px;">  $/M^3</label>
+                  </div>
+                  <div class="col-sm-4">
+                    <input type='button' class="btn" style="background-color:green; color: white;" onclick='changeText()' value='Magna' />
+                    <input type='button' class="btn" style="background-color:#EE1C25;" onclick='afterRhinoMag()' value='Rhino' />
+                      <a href="#projects2" class="btn js-scroll-trigger" style="height:20px; width:10px; background-color:red; color:white">P</a>
+                    <select id = "pick" class="form-control" style="margin-top: 5px;" name="">
+                      <option value="7">Cluster7</option>
+                      <option value="13">Cluster13</option>
+                      <option value="14">Cluster14</option>
+                      <option value="15">Cluster15</option>
+                      <option value="18">Cluster18</option>
+
+                    </select>
+
+                  </div>
+            </div>
+            <br>
+          </div>
+        </div>
+        <!-- Project One Row -->
+        <!-- Project Two Row -->
+      </div>
+    </section>
+<!-- PUUM DE VARO-->
+    <section id="about" class="about-section4"style="padding-top: ‒10; padding-top: 30px;  background-size:cover;">
+      <div class="topright">
+        <br>
+      </div>
+      <div class="container" style="margin-left: 100px;">
+        <div class="row">
+          <div class="col-sm-8">
+            <br>
+            <p class="" style="font-size: 35px; color:#EE1C25;font-weight: bold; left: 200px; margin-left: 135px;">BENEFICIOS <br> En resumen: </p>
+          </div>
+          <div class="col-sm-12 offset-sm-2">
+            <p class="" style="font-size: 28px; color: white;font-weight: bold; margin-left: 25px">Tu beneficio en estre momento = <label id="MS1"></label> <label> <i>l x</i></label> <label id="MS2"></label> <label>$/L = </label> <label id="MS3"></label> <label>$</label>
+               <br> <br> <br> <br>  </p>
+            <br>
+          </div>
+          <div class="col-sm-12 offset-sm-3">
+            <p class="" style="font-size: 28px; color: white;font-weight: bold; margin-left: 25px">Tu beneficio con <a style="font-weight: bold; font-size: 40px; color: #EE1C25">Rhino</a>  = <label id="MS5"></label> <label> <i>l x</i></label> <label id="MS4"></label> <label>$/L = </label> <label id="MS6" style="font-weight: bold; font-size: 65px; color: #EE1C25"></label> <label style="font-weight: bold; font-size: 65px; color: #EE1C25">$</label>
+               <br> <br> <br> <br> <br> <br> </p>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+    </section>
+<!-- fin de pum de varo  -->
+    <section  class="projects-section" style="padding-top: 10px; background:url(img/aboutRhino5.jpg);  background-size:cover;">
+      <div class="container" style="margin-left: 0px;">
+        <p id="projects2" style="font-size: 30px; font-weight: bold; color: #EE1C25; padding-left: 80px;margin-bottom: 20px;padding-top: 25px;">PREMIUM</p>
+        <!-- Featured Project Row -->
+        <div class="mb-sm-6">
+          <div class="col-xl-10 col-lg-6">
+
+            <div id="chartdiv2"></div>
+          </div>
+          <div>
+            <div class="featured-text text-center text-lg-left">
+              <h4>Premium...</h4>
+                  <div class="col-sm-6">
+                    <label for="usr">M^3 Mensuales :</label>
+                    <input type="text" class="form-control col-sm-4" id="usr2">
+                  </div>
+                  <div class="col-sm-6">
+                    <label>Corresponde al nivel: </label>
+                    <label id = "lab2" style="font-size: 20px; font-weight: bold; color: #EE1C25;"></label>
+                    <label> Estando a un : </label>
+                    <label id = "percent2" style="font-size: 20px; font-weight: bold; color: #EE1C25;"></label>
+                    <label> % Del nivel</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <label> Lo que implica un beneficio de: </label>
+                  </div>
+                  <div class="col-sm-7">
+                    <label> a 1 año: </label>
+                    <label id="resp1" style="font-size: 20px; font-weight: bold;"></label>
+                    <label style="font-size: 15px;">  $/M^3; </label>
+                    <label> a 2 años: </label>
+                    <label id="resp2" style="font-size: 25px; font-weight: bold;"></label>
+                    <label style="font-size: 15px;">  $/M^3; </label>
+                    <label> a 3 años: </label>
+                    <label id = "res2" style="font-size: 30px; font-weight: bold; color: #EE1C25;"></label>
+                    <label style="font-size: 15px;">  $/M^3</label>
+                  </div>
+                  <div class="col-sm-5">
+                    <input type='button' class="btn" onclick='changePremium()' style="background-color: #EE1C25; color: white;" value='Premium' />
+                    <input type='button' class="btn" onclick='afterRhinoPrem()'style="background-color:#EE1C25;" value='Rhino' />
+                    <a href="#projects3" class="btn js-scroll-trigger" style="height:20px; width:10px; background-color:black; color:red">D</a>
+                    <select id = "pick2" class="form-control" style="margin-top: 5px;" name="">
+                      <option value="7">Cluster7</option>
+                      <option value="13">Cluster13</option>
+                      <option value="14">Cluster14</option>
+                      <option value="15">Cluster15</option>
+                      <option value="18">Cluster18</option>
+
+                    </select>
+                  </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- Project One Row -->
+        <!-- Project Two Row -->
+      </div>
+    </section>
+
+<!-- PUUM DE VARO-->
+    <section id="about" class="about-section4"style="padding-top: ‒10; padding-top: 30px;  background-size:cover;">
+      <div class="topright">
+        <br>
+      </div>
+      <div class="container" style="margin-left: 100px;">
+        <div class="row">
+          <div class="col-sm-8">
+            <br>
+            <p class="" style="font-size: 35px; color:#EE1C25;font-weight: bold; left: 200px; margin-left: 135px;">BENEFICIOS <br> En resumen: </p>
+          </div>
+          <div class="col-sm-12 offset-sm-2">
+            <p class="" style="font-size: 28px; color: white;font-weight: bold; margin-left: 25px">Tu beneficio en estre momento = <label id="MS12"></label> <label> <i>l x</i></label> <label id="MS22"></label> <label>$/L = </label> <label id="MS32"></label> <label>$</label>
+               <br> <br> <br> <br>  </p>
+            <br>
+          </div>
+          <div class="col-sm-12 offset-sm-3">
+            <p class="" style="font-size: 28px; color: white;font-weight: bold; margin-left: 25px">Tu beneficio con <a style="font-weight: bold; font-size: 40px; color: #EE1C25">Rhino</a>  = <label id="MS52"></label> <label> <i>l x</i></label> <label id="MS42"></label> <label>$/L = </label> <label id="MS62" style="font-weight: bold; font-size: 65px; color: #EE1C25"></label> <label style="font-weight: bold; font-size: 65px; color: #EE1C25">$</label>
+               <br> <br> <br> <br> <br> <br> </p>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+    </section>
+<!-- fin de pum de varo  -->
+
+    <!-- Signup Section -->
+    <section  class="projects-section" style="padding-top: 10px; background:url(img/aboutRhino6.jpg);  background-size:cover;">
+      <div class="container" style="margin-left: 0px;">
+        <p id="projects3" style="font-size: 30px; font-weight: bold; color: #EE1C25; padding-left: 80px;margin-bottom: 20px;padding-top: 50px;">DIESEL</p>
+        <!-- Featured Project Row -->
+        <div class="mb-sm-6">
+          <div class="col-xl-10 col-lg-6">
+            <div id="chartdiv3"></div>
+          </div>
+          <div>
+            <div class="featured-text text-center text-lg-left">
+              <h4>Diesel...</h4>
+                  <div class="col-sm-6">
+                    <label for="usr">M^3 Mensuales :</label>
+                    <input type="text" class="form-control col-sm-4" id="usr3">
+                  </div>
+                  <div class="col-sm-6">
+                    <label>Corresponde al nivel: </label>
+                    <label id = "lab3" style="font-size: 20px; font-weight: bold; color: black;"></label>
+                    <label> Estando a un : </label>
+                    <label id = "percent3" style="font-size: 20px; font-weight: bold; color: black;"></label>
+                    <label> % Del nivel</label>
+                  </div>
+                  <div class="col-sm-6">
+                    <label> Lo que implica un beneficio de: </label>
+                  </div>
+                  <div class="col-sm-7">
+                    <label> a 1 año: </label>
+                    <label id="resd1" style="font-size: 20px; font-weight: bold;"></label>
+                    <label style="font-size: 15px;">  $/M^3; </label>
+                    <label> a 2 años: </label>
+                    <label id="resd2" style="font-size: 25px; font-weight: bold;"></label>
+                    <label style="font-size: 15px;">  $/M^3; </label>
+                    <label> a 3 años: </label>
+                    <label id = "res3" style="font-size: 30px; font-weight: bold; color: #EE1C25;"></label>
+                    <label style="font-size: 15px;">  $/M^3</label>
+                  </div>
+                  <div class="col-sm-4">
+                    <input type='button' class="btn" onclick='changeDiesel()' style="background-color: #000000; color: white;" value='Diesel' />
+                    <input type='button' class="btn" onclick='afterRhinoDies()' style="background-color:#EE1C25;" value='Rhino' />
+                    <select id = "pick3" class="form-control" style="margin-top: 5px;" name="">
+                      <option value="7">Cluster7</option>
+                      <option value="13">Cluster13</option>
+                      <option value="14">Cluster14</option>
+                      <option value="15">Cluster15</option>
+                      <option value="18">Cluster18</option>
+
+                    </select>
+                  </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- Project One Row -->
+        <!-- Project Two Row -->
+      </div>
+    </section>
+
+<!-- PUUM DE VARO-->
+    <section id="about" class="about-section4"style="padding-top: ‒10; padding-top: 30px;  background-size:cover;">
+      <div class="topright">
+        <br>
+      </div>
+      <div class="container" style="margin-left: 100px;">
+        <div class="row">
+          <div class="col-sm-8">
+            <br>
+            <p class="" style="font-size: 35px; color:#EE1C25;font-weight: bold; left: 200px; margin-left: 135px;">BENEFICIOS <br> En resumen: </p>
+          </div>
+          <div class="col-sm-12 offset-sm-2">
+            <p class="" style="font-size: 28px; color: white;font-weight: bold; margin-left: 25px">Tu beneficio en estre momento = <label id="MS13"></label> <label> <i>l x</i></label> <label id="MS23"></label> <label>$/L = </label> <label id="MS33"></label> <label>$</label>
+               <br> <br> <br> <br>  </p>
+            <br>
+          </div>
+          <div class="col-sm-12 offset-sm-3">
+            <p class="" style="font-size: 28px; color: white;font-weight: bold; margin-left: 25px">Tu beneficio con <a style="font-weight: bold; font-size: 40px; color: #EE1C25">Rhino</a>  = <label id="MS53"></label> <label> <i>l x</i></label> <label id="MS43"></label> <label>$/L = </label> <label id="MS63" style="font-weight: bold; font-size: 65px; color: #EE1C25"></label> <label style="font-weight: bold; font-size: 65px; color: #EE1C25">$</label>
+               <br> <br> <br> <br> <br> <br> </p>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+    </section>
+<!-- fin de pum de varo  -->
+    <!-- Contact Section -->
+    <section id="signup" class="contact-section bg-black">
+      <div class="container">
+        <div class="col-sm-8">
+          <br>
+          <p class="" style="font-size: 35px; color:#EE1C25;font-weight: bold; left: 200px;">Grupos</p>
+          <br>
+        </div>
+        <div class="col-sm-12">
+          <table id="myTable" class="table" style="color: white">
+            <tr>
+              <td style="font-weight: bold;">Cluster</td>
+              <td style="font-weight: bold;">Combustible</td>
+              <td style="font-weight: bold;">Cantidad</td>
+            </tr>
+          </table>
+          <br>
+        </div>
+        <div class="col-sm-12">
+
+          <div class="col-sm-4">
+            <select id = "clus" class="form-control"  name="">
+              <option value="7">Cluster7</option>
+              <option value="13">Cluster13</option>
+              <option value="14">Cluster14</option>
+              <option value="15">Cluster15</option>
+              <option value="18">Cluster18</option>
+            </select>
+          </div>
+          <div class="col-sm-4">
+            <select id = "comb" class="form-control "  name="">
+              <option value="Magna">Magna</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Premium">Premium</option>
+            </select>
+          </div>
+
+          <div class="col-sm-4">
+            <input type="text" class="form-control" id="cantid">
+          </div>
+          <div class="col-sm-4">
+            <button onclick="myFunction()" style="width:50px;height:50px; font-weight: bold; background-color:#EE1C25; margin: 5px; padding:10px; -webkit-border-radius: 50px;-moz-border-radius: 50px; border-radius: 50px; color: white;"> + </button>
+          </div>
+
+          <div class="col-sm-4">
+            <input type='button' class="btn" onclick='TotalGttr()' style="background-color: #EE1C25; color: white;" value='Set' />
+            <select id = "sm" class="btn"  name="">
+              <option value="7">T Cluster 7</option>
+              <option value="13">T Cluster 13</option>
+              <option value="14">T Cluster 14</option>
+              <option value="15">T Cluster 15</option>
+              <option value="18">T Cluster 18</option>
+            </select>
+            <a href="#projects" class="btn btn-primary js-scroll-trigger">Graficas Top</a>
+          </div>
+        </div>
+
+        <script>
+        var tot;
+        var agp;
+
+        var sumClusters= {"7":{"Diesel": 0, "Magna": 0, "Premium": 0,},"8":{"Diesel": 0, "Magna": 0, "Premium": 0,},"9":{"Diesel": 0, "Magna": 0, "Premium": 0,},"10":{"Diesel": 0, "Magna": 0, "Premium": 0,},"11":{"Diesel": 0, "Magna": 0, "Premium": 0,},"12":{"Diesel": 0, "Magna": 0, "Premium": 0,},"13":{"Diesel": 0, "Magna": 0, "Premium": 0,},"14":{"Diesel": 0, "Magna": 0, "Premium": 0,},"15":{"Diesel": 0, "Magna": 0, "Premium": 0,},"16":{"Diesel": 0, "Magna": 0, "Premium": 0,},"17":{"Diesel": 0, "Magna": 0, "Premium": 0,},"18":{"Diesel": 0, "Magna": 0, "Premium": 0,}, };
+
+        function myFunction() {
+            var table = document.getElementById("myTable");
+            var clus = document.getElementById('clus').value;
+            var comb = document.getElementById('comb').value;
+            var cant = document.getElementById('cantid').value;
+            cant = parseInt(cant);
+            tot = sumClusters[clus][comb];
+            //alert(tot);
+            agp = tot + cant;
+            //alert(agp);
+            sumClusters[clus][comb] = agp;
+            console.log(sumClusters[clus][comb]);
+
+            var row = table.insertRow(1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            cell1.innerHTML = clus;
+            cell2.innerHTML = comb;
+            cell3.innerHTML = cant;
+        }
+        function TotalGttr() {
+          var TPick = document.getElementById('sm').value;
+          document.getElementById('usr').value = sumClusters[TPick].Magna;
+          document.getElementById('usr2').value = sumClusters[TPick].Premium;
+          document.getElementById('usr3').value = sumClusters[TPick].Diesel;
+
+        }
+        </script>
+
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black small text-center text-white-50">
+      <div class="container">
+        Copyright &copy; RhinoOil 2018; WebDesign Miguel Manrique
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/grayscale.min.js"></script>
+
+  </body>
+
+</html>
